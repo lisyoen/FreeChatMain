@@ -12,12 +12,6 @@ function handler (req, res) {
 }
 
 io.sockets.on('connection', function (socket) {
-    socket.on('my other event', function (data) {
-		console.log(data);
-		socket.emit('my_message', data);
-		socket.broadcast.emit("message", data);
-	});
-
 	socket.on('report', function (data) {
 		console.log('request report');
 		socket.emit('my_report', {users: 10, rooms: 3});
