@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta name="viewport" content="user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, width=device-width, height=device-height">
+	<title>lisyoen's admin</title>
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script> 
+	<script src="http://lisyoen.cafe24.com:8003/socket.io/socket.io.js"></script>
+	<script>
+var socket = io.connect('http://lisyoen.cafe24.com:8003');
+
+function git_pull() {
+	socket.emit('git pull');
+}
+
+function restart() {
+	socket.emit('restart');
+}
+
+$(function() {
+	socket.on('message', function(data) {
+		console.log(data);
+		message_list.innerHTML = "Other: " + data.message + "<br />" + message_list.innerHTML;
+	});
+
+	socket.on('my_message', function(data) {
+		message_list.innerHTML = "You: " + data.message + "<br />" + message_list.innerHTML;
+	});
+
+	socket.on('system report', function(data) {
+		if (data.err) {
+			message_list.innerHTML = "Error: " + data.stderr.replace('\n', '<br />') + '<br />' + message_list.innerHTML;
+		} else {
+			message_list.innerHTML = "System: " + data.stdout.replace('\n', '<br />') + '<br />' + message_list.innerHTML;
+		}
+	});
+});
+	</script>
+</head>
+<body>
+<h3>admin page</h3>
+	<button type="button" onclick="send()">Send</button>
+	<button type="button" onclick="git_pull()">git pull</button>
+	<button type="button" onclick="restart()">restart</button>
+	<div id="message_list"></div>
+</body>
+</html>
