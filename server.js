@@ -7,7 +7,7 @@ var app = require('http').createServer(handler)
 app.listen(8000);
 
 function handler (req, res) {
-    res.writeHead(404);
+    res.writeHead(400);
     res.end("Invalid Access");
 }
 
