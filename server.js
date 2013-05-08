@@ -2,7 +2,8 @@
 var app = require('http').createServer(handler)
     , io = require('socket.io').listen(app)
     , fs = require('fs')
-    , exec = require('child_process').exec;
+    , exec = require('child_process').exec
+    , qs = require('querystring');
 
 app.listen(8000);
 
@@ -59,10 +60,16 @@ function handler (req, res) {
 			res.end('Bad Request');
 			return;
 		}
+		var data = '';
 		req.setEncoding('utf8');
-		req.on('data', function(data) {
-			
-			console.log(data);
+		req.on('data', function(chunk) {
+			data += chunk;
+		});
+		
+		req.on('end', function() {
+			var json = qs.parse(data);
+			console.log('data: ' + data);
+			console.log('json: ' + json);
 		});
 	}
 	default:
