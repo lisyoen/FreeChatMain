@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html class="ui-mobile" >
 <head >
 	<meta charset="utf-8" >
@@ -22,43 +22,42 @@
     var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
   })();
 
+function service(name, desc, count, url) {
+	this.name = name;
+	this.desc = desc;
+	this.count = count;
+	this.url = url;
+}
+
+function serviceGroup(name) {
+	this.name = name;
+	this.services = [];
+}
+
 </script>
 	<title>Free Chat</title>
 </head>
-<body >
+<body>
 	<div data-role="page" id="page1">
 		<div data-role="header">
-			<h1>Free Chat</h1>
+			<h1>Services</h1>
 		</div>
 		<div data-role="content" id="Content1">
+			<form method="POST" action="http://lisyoen.cafe24.com:8000/createService">
 			<ul data-role="listview" id="Listview1" data-inset="true" class="">
-				<li data-role="list-divider">Open</li>
+				<li data-role="list-divider">Chatting</li>
 				<li id="LinkedListitem3">
-					<a href="http://lisyoen.dangsam.com" data-ajax="false">lisyoen<span class="ui-li-count">0</span></a>
+					<a href="http://lisyoen.dangsam.com" data-ajax="false">
+					<h1>Simple Chat v0.1</h1>
+					<span class="ui-li-count">0/20</span>
+					<p>Developed by lisyoen</p></a>
 				</li>
-				<li data-role="list-divider">Closed</li>
-				<li id="LinkedListitem1" class="ui-disabled">
-					<a href="http://amos.dangsam.com" data-ajax="false">amos<span class="ui-li-count">0</span></a>
-				</li>
-				<li id="LinkedListitem2" class="ui-disabled">
-					<a href="http://hwani.dangsam.com" data-ajax="false">hwani<span class="ui-li-count">0</span></a>
-				</li>
-				<li id="LinkedListitem4" class="ui-disabled">
-					<a href="http://lucy.dangsam.com" data-ajax="false">lucy<span class="ui-li-count">0</span></a>
-				</li>
-				<li id="LinkedListitem5" class="ui-disabled">
-					<a href="http://mucikan.dangsam.com" data-ajax="false">mucikan<span class="ui-li-count">0</span></a>
-				</li>
-				<li id="LinkedListitem6" class="ui-disabled">
-					<a href="http://siddhik.dangsam.com" data-ajax="false">siddhik<span class="ui-li-count">0</span></a>
-				</li>
-				<li id="LinkedListitem7" class="ui-disabled">
-					<a href="http://yser.dangsam.com" data-ajax="false">yser<span class="ui-li-count">0</span></a>
-				</li>
-				<li id="LinkedListitem8" class="ui-disabled">
-					<a href="http://ziefer.dangsam.com" data-ajax="false">ziefer<span class="ui-li-count">0</span></a>
 				</li>
 			</ul>
+			<input type="hidden" name="param1" value="value1" />
+			<input type="hidden" name="param2" value="value2" />
+			<a href="#" onclick="submit()">Test</a>
+			</form>
 			<h4>Made in Korea</h2>
 		</div>
 	</div>
