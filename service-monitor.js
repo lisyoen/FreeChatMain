@@ -40,12 +40,10 @@ function on(event, handler) {
 	switch(event) {
 		case 'response': {
 			responseHandler = handler;
-			if (req) req.on('response', responseHandler);
 			break;
 		}
 		case 'error': {
 			errorHandler = handler;
-			if (req) req.on('error', errorHandler);
 			break;
 		}
 		default: {
