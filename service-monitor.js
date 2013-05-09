@@ -11,7 +11,9 @@ typedef service {
 }
 typedef callback function(response);
 */
-function report(service) {
+var responseHandler, errorHandler;
+
+function report(service, response, error) {
 	var options = {
 		host: 'localhost',
 		port: 8000,
@@ -19,7 +21,7 @@ function report(service) {
 		method: 'POST'
 	};
 	
-	var req = http.request(options, function(res) {
+	req = http.request(options, function(res) {
 		var data = '';
 		res.on('data', function(chunk) {
 			data += chunk;
@@ -28,24 +30,26 @@ function report(service) {
 			console.log(data);
 		});
 	});
-	
-	this.on = function(event, handler) {
-		switch(event) {
-			case 'response': {
-				req.on('response', handler);
-				break;
-			}
-			case 'error': {
-				req.on('error', handler);
-				break;
-			}
-			default: {
-				break;
-			}
-		}
-	}
-	
+	req.on('response', responseHandler);
+	req.on('error', errorHandler);
 	req.end(qs.stringify(service));
 }
 
+function on(event, handler) {
+	switch(event) {
+		case 'response': {
+			responseHandler = handler;
+			break;
+		}
+		case 'error': {
+			errorHandler = handler;
+			break;
+		}
+		default: {
+			break;
+		}
+	}
+}
+
 exports.report = report;
+exports.on = on;
