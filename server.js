@@ -124,7 +124,7 @@ function serviceManager(defaultLife) {
 	};
 }
 
-var sm = new serviceManager(10);
+var sm = new serviceManager(100);
 
 // refresh client service list
 function refresh() {
