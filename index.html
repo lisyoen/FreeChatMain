@@ -22,9 +22,8 @@
     var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
   })();
 
-var socket = io.connect('http://lisyoen.cafe24.com:8000');
-  
 $(function() {
+	var socket = io.connect('http://lisyoen.cafe24.com:8000');
 	refreshServiceList();
 	socket.on('services', function(data) {
 		console.log(data);
