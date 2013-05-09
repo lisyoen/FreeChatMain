@@ -141,7 +141,7 @@ sm.on('online', function(service) {
 
 sm.on('update', function(service) {
 	console.log('update ' + (service ? service.id : ''));
-	//console.log(service);
+	console.log(service);
 	refresh();
 });
 
