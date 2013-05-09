@@ -22,11 +22,12 @@
     var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
   })();
 
-function service(name, desc, count, url) {
+function service(id, name, desc, url, count) {
+	this.id = id;
 	this.name = name;
 	this.desc = desc;
-	this.count = count;
 	this.url = url;
+	this.count = count;
 }
 
 function serviceGroup(name) {
@@ -40,22 +41,23 @@ function serviceGroup(name) {
 <body>
 	<div data-role="page" id="page1">
 		<div data-role="header">
-			<h1>Services</h1>
+			<h1>Free Services Zone</h1>
 		</div>
 		<div data-role="content" id="Content1">
 			<form method="POST" action="http://lisyoen.cafe24.com:8000/createService">
 			<ul data-role="listview" id="Listview1" data-inset="true" class="">
-				<li data-role="list-divider">Chatting</li>
-				<li id="LinkedListitem3">
+				<li data-role="list-divider">Services</li>
+				<li id="LinkedListitem1">
 					<a href="http://lisyoen.dangsam.com" data-ajax="false">
 					<h1>Simple Chat v0.1</h1>
 					<span class="ui-li-count">0/20</span>
 					<p>Developed by lisyoen</p></a>
 				</li>
-				</li>
 			</ul>
-			<input type="hidden" name="param1" value="value1" />
-			<input type="hidden" name="param2" value="value2" />
+			<input type="hidden" name="id" value="lisyoen" />
+			<input type="hidden" name="name" value="Simple Chat" />
+			<input type="hidden" name="desc" value="Developed by lisyoen" />
+			<input type="hidden" name="count" value="1/2" />
 			<a href="#" onclick="submit()">Test</a>
 			</form>
 			<h4>Made in Korea</h2>
