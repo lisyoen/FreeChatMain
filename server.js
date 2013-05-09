@@ -130,7 +130,7 @@ var sm = new serviceManager(100);
 // refresh client service list
 function refresh() {
 	io.sockets.emit('services', sm.getServices());
-	console.log('refresh');
+	console.log('refresh+');
 	//console.log(sm.getServices());
 }
 
