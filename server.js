@@ -40,7 +40,6 @@ function serviceManager(defaultLife) {
 		size++;
 		console.log('setService');
 		//console.log(service);
-		service.name = service.name + '1';
 		if (!service.life) {
 			service.life = defaultLife;
 		}
