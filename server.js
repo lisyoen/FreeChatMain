@@ -39,7 +39,7 @@ function serviceManager(defaultLife) {
 	this.setService = function(id, service) {
 		size++;
 		console.log('setService');
-		console.log(service);
+		//console.log(service);
 		if (!service.life) {
 			service.life = defaultLife;
 		}
@@ -142,7 +142,7 @@ sm.on('online', function(service) {
 
 sm.on('update', function(service) {
 	console.log('update ' + (service ? service.id : ''));
-	console.log(service);
+	//console.log(service);
 	refresh();
 });
 
