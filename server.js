@@ -170,6 +170,7 @@ function handler (req, res) {
 			
 			req.on('end', function() {
 				var q = qs.parse(data);
+				console.log(q);
 				if (q.id && q.name) {
 					sm.setService(q.id, new service(q.id, q.name, q.desc, q.url, q.count));
 					res.writeHead(200);
