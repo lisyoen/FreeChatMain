@@ -39,6 +39,7 @@ function serviceManager(defaultLife) {
 	this.setService = function(id, service) {
 		size++;
 		console.log('setService');
+		console.log(service);
 		if (!service.life) {
 			service.life = defaultLife;
 		}
@@ -170,7 +171,7 @@ function handler (req, res) {
 			
 			req.on('end', function() {
 				var q = qs.parse(data);
-				console.log(q);
+				//console.log(q);
 				if (q.id && q.name) {
 					sm.setService(q.id, new service(q.id, q.name, q.desc, q.url, q.count));
 					res.writeHead(200);
