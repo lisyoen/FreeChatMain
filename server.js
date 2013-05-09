@@ -134,19 +134,19 @@ function refresh() {
 }
 
 sm.on('online', function(service) {
-	console.log('online ' + service.id);
+	console.log('online ' + (service ? service.id : ''));
 	//console.log(service);
 	refresh();
 });
 
 sm.on('update', function(service) {
-	console.log('update ' + service.id);
+	console.log('update ' + (service ? service.id : ''));
 	//console.log(service);
 	refresh();
 });
 
 sm.on('post offline', function(service) {
-	console.log('offline ' + service.id);
+	console.log('offline ' + (service ? service.id : ''));
 	//console.log(service);
 	refresh();
 });
