@@ -11,6 +11,7 @@ typedef service {
 }
 typedef callback function(response);
 */
+var req;
 var responseHandler, errorHandler;
 
 function report(service, response, error) {
@@ -30,8 +31,8 @@ function report(service, response, error) {
 			console.log(data);
 		});
 	});
-	req.on('response', responseHandler);
-	req.on('error', errorHandler);
+	if (responseHandler) req.on('response', responseHandler);
+	if (errorHandler) req.on('error', errorHandler);
 	req.end(qs.stringify(service));
 }
 
@@ -39,10 +40,12 @@ function on(event, handler) {
 	switch(event) {
 		case 'response': {
 			responseHandler = handler;
+			if (req) req.on('response', responseHandler);
 			break;
 		}
 		case 'error': {
 			errorHandler = handler;
+			if (req) req.on('error', errorHandler);
 			break;
 		}
 		default: {
