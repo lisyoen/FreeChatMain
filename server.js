@@ -130,24 +130,24 @@ var sm = new serviceManager(100);
 function refresh() {
 	io.sockets.emit('services', sm.getServices());
 	console.log('refresh');
-	console.log(sm.getServices());
+	//console.log(sm.getServices());
 }
 
 sm.on('online', function(service) {
-	console.log('online');
-	console.log(service);
+	console.log('online ' + service.id);
+	//console.log(service);
 	refresh();
 });
 
 sm.on('update', function(service) {
-	console.log('update');
-	console.log(service);
+	console.log('update ' + service.id);
+	//console.log(service);
 	refresh();
 });
 
 sm.on('post offline', function(service) {
-	console.log('offline');
-	console.log(service);
+	console.log('offline ' + service.id);
+	//console.log(service);
 	refresh();
 });
 
