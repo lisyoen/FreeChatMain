@@ -46,13 +46,13 @@ function serviceManager(defaultLife) {
 		if (!services[id]) {
 			services[id] = service;
 			for (var h in onlineHandlers) {
-				onlineHandlers[h].apply(this, service);
+				onlineHandlers[h].call(this, service);
 			}
 		}
 		else {
 			services[id] = service;
 			for (var h in updateHandlers) {
-				updateHandlers[h].apply(this, service);
+				updateHandlers[h].call(this, service);
 			}
 		}
 		return service;
@@ -82,11 +82,11 @@ function serviceManager(defaultLife) {
 			var svc = services[id];
 			if (--svc.life <= 0) {
 				for (var h in offlineHandlers) {
-					offlineHandlers[h].apply(that, svc);
+					offlineHandlers[h].call(that, svc);
 				}
 				that.removeService(id);
 				for (var h in postOfflineHandlers) {
-					postOfflineHandlers[h].apply(that, svc);
+					postOfflineHandlers[h].call(that, svc);
 				}
 			}
 		}
