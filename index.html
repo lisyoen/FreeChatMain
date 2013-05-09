@@ -7,7 +7,7 @@
 	<link rel="stylesheet" href="main.css">
 	<script src="lib/jquery.js" ></script>
 	<script src="lib/jquery.mobile-1.2.0.js" ></script>
-	<script src="http://lisyoen.cafe24.com:8003/socket.io/socket.io.js"></script>
+	<script src="http://lisyoen.cafe24.com:8000/socket.io/socket.io.js"></script>
 	<script src="main.js" ></script>
 <script type="text/javascript">
 
@@ -22,17 +22,34 @@
     var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
   })();
 
-function service(id, name, desc, url, count) {
-	this.id = id;
-	this.name = name;
-	this.desc = desc;
-	this.url = url;
-	this.count = count;
-}
+var socket = io.connect('http://lisyoen.cafe24.com:8000');
+  
+$(function() {
+	refreshServiceList();
+	socket.on('services', function(data) {
+		console.log(data);
+		services = data;
+		refreshServiceList();
+	});
+});
 
-function serviceGroup(name) {
-	this.name = name;
-	this.services = [];
+var services = {};
+
+function refreshServiceList() {
+	var list = $('#Listview1');
+	
+	list.empty();
+	list.append($('<li/>', {'data-role': 'list-divider'}).text('Services'));
+	for (var id in services) {
+		var svc = services[id];
+		var item = $('<li/>')
+			.append($('<a/>', {href: svc.url, 'data-ajax': false})
+				.append($('<h1/>').text(svc.name))
+				.append($('<span/>', {'class': 'ui-li-count'}).text(svc.count))
+				.append($('<p/>').text(svc.desc)));
+		list.append(item);
+	}
+	list.listview('refresh');
 }
 
 </script>
@@ -44,22 +61,9 @@ function serviceGroup(name) {
 			<h1>Free Services Zone</h1>
 		</div>
 		<div data-role="content" id="Content1">
-			<form method="POST" action="http://lisyoen.cafe24.com:8000/createService">
 			<ul data-role="listview" id="Listview1" data-inset="true" class="">
 				<li data-role="list-divider">Services</li>
-				<li id="LinkedListitem1">
-					<a href="http://lisyoen.dangsam.com" data-ajax="false">
-					<h1>Simple Chat v0.1</h1>
-					<span class="ui-li-count">0/20</span>
-					<p>Developed by lisyoen</p></a>
-				</li>
 			</ul>
-			<input type="hidden" name="id" value="lisyoen" />
-			<input type="hidden" name="name" value="Simple Chat" />
-			<input type="hidden" name="desc" value="Developed by lisyoen" />
-			<input type="hidden" name="count" value="1/2" />
-			<a href="#" onclick="submit()">Test</a>
-			</form>
 			<h4>Made in Korea</h2>
 		</div>
 	</div>

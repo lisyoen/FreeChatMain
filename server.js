@@ -8,6 +8,7 @@ var app = require('http').createServer(handler)
 
 app.listen(8000);
 
+// service monitoring part
 function service(id, name, desc, url, count) {
 	this.id = id;
 	this.name = name;
@@ -23,6 +24,8 @@ function serviceManager(defaultLife) {
 	
 	var onlineHandlers = [];
 	var offlineHandlers = [];
+	var postOfflineHandlers = [];
+	var updateHandlers = [];
 	
 	// service control methods
 	this.getService = function(id) {
@@ -36,7 +39,6 @@ function serviceManager(defaultLife) {
 	this.setService = function(id, service) {
 		size++;
 		console.log('setService');
-		console.log(service);
 		if (!service.life) {
 			service.life = defaultLife;
 		}
@@ -48,6 +50,9 @@ function serviceManager(defaultLife) {
 		}
 		else {
 			services[id] = service;
+			for (var h in updateHandlers) {
+				updateHandlers[h].apply(this, service);
+			}
 		}
 		return service;
 	};
@@ -79,6 +84,9 @@ function serviceManager(defaultLife) {
 					offlineHandlers[h].apply(that, svc);
 				}
 				that.removeService(id);
+				for (var h in postOfflineHandlers) {
+					postOfflineHandlers[h].apply(that, svc);
+				}
 			}
 		}
 	}, checkInterval);
@@ -99,6 +107,16 @@ function serviceManager(defaultLife) {
 				offlineHandlers.push(handler);
 				break;
 			}
+			case 'removed':
+			case 'postOffline':
+			case 'post offline': {
+				postOfflineHandlers.push(handler);
+				break;
+			}
+			case 'update': {
+				updateHandlers.push(handler);
+				break;
+			}
 			default: {
 				break;
 			}
@@ -108,6 +126,7 @@ function serviceManager(defaultLife) {
 
 var sm = new serviceManager(10);
 
+// refresh client service list
 function refresh() {
 	io.sockets.emit('services', sm.getServices());
 	console.log('refresh');
@@ -120,7 +139,13 @@ sm.on('online', function(service) {
 	refresh();
 });
 
-sm.on('offline', function(service) {
+sm.on('update', function(service) {
+	console.log('update');
+	console.log(service);
+	refresh();
+});
+
+sm.on('post offline', function(service) {
 	console.log('offline');
 	console.log(service);
 	refresh();
@@ -130,7 +155,8 @@ function handler (req, res) {
 	console.log(req.url);
 	switch (req.url)
 	{
-		case '/createService': {
+		case '/createService':
+		case '/updateService': {
 			if (req.method !== 'POST') {
 				res.writeHead(400);
 				res.end('Bad Request');
@@ -164,6 +190,7 @@ function handler (req, res) {
 	}
 }
 
+// process admin commands
 io.sockets.on('connection', function (socket) {
 	function echo_exec(cmd, callback) {
 		exec(cmd, function(err, stdout, stderr) {
@@ -185,6 +212,8 @@ io.sockets.on('connection', function (socket) {
 
 	socket.on('restart', function (data) {
 		console.log('restart');
-		echo_exec('forever restart chat.js', function() {});
+		echo_exec('forever restart server.js', function() {});
 	});
+	
+	refresh();
 });
