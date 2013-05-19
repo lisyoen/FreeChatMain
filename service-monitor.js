@@ -11,10 +11,7 @@ typedef service {
 }
 typedef callback function(response);
 */
-var req;
-var responseHandler, errorHandler;
-
-function report(service, response, error) {
+function report(service, callback) {
 	var options = {
 		host: 'localhost',
 		port: 8000,
@@ -22,7 +19,7 @@ function report(service, response, error) {
 		method: 'POST'
 	};
 	
-	req = http.request(options, function(res) {
+	var req = http.request(options, function(res) {
 		var data = '';
 		res.on('data', function(chunk) {
 			data += chunk;
@@ -31,26 +28,11 @@ function report(service, response, error) {
 			console.log(data);
 		});
 	});
-	if (responseHandler) req.on('response', responseHandler);
-	if (errorHandler) req.on('error', errorHandler);
+	if (callback) {
+		req.on('response', callback);
+		req.on('error', callback);
+	}
 	req.end(qs.stringify(service));
 }
 
-function on(event, handler) {
-	switch(event) {
-		case 'response': {
-			responseHandler = handler;
-			break;
-		}
-		case 'error': {
-			errorHandler = handler;
-			break;
-		}
-		default: {
-			break;
-		}
-	}
-}
-
 exports.report = report;
-exports.on = on;
