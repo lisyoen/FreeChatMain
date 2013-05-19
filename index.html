@@ -7,7 +7,7 @@
 	<link rel="stylesheet" href="main.css">
 	<script src="lib/jquery.js" ></script>
 	<script src="lib/jquery.mobile-1.2.0.js" ></script>
-	<script src="http://lisyoen.cafe24.com:8000/socket.io/socket.io.js"></script>
+	<script src="http://free.dangsam.com:8000/socket.io/socket.io.js"></script>
 	<script src="main.js" ></script>
 <script type="text/javascript">
 
@@ -23,7 +23,7 @@
   })();
 
 $(function() {
-	var socket = io.connect('http://lisyoen.cafe24.com:8000');
+	var socket = io.connect('http://free.dangsam.com:8000');
 	refreshServiceList();
 	socket.on('services', function(data) {
 		console.log(data);
